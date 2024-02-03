@@ -291,7 +291,6 @@ class CliqueSampler:
         return children
 
 
-
 def ncr(n, r):
     r = min(r, n-r)
     numer = reduce(op.mul, range(n, n-r, -1), 1)
