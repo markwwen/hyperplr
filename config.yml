@@ -1,4 +1,4 @@
 data_dir: 'data'
 dataset_dir: 'dataset'
-dataset: 'tags-ask-ubuntu'
-beta: 350000
+dataset: 'congress-bills'
+beta: 80000

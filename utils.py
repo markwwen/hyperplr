@@ -9,14 +9,14 @@ def load_graphs(config, logger):
     # dataset_dir = args.data_dir+args.dataset+'/'
     dataset_dir = f'{config['data_dir']}/{config['dataset']}/'
     graphs = {}
-    graphs['simplicies'] = read_simplicies(dataset_dir, mode='train')
-    graphs['G_train'] = construct_graph(graphs['simplicies'])
-    graphs['G_weighted'] = construct_weighted_graph(graphs['simplicies'])
+    graphs['simplicies_train'] = read_simplicies(dataset_dir, mode='train')
+    graphs['G_train'] = construct_graph(graphs['simplicies_train'])
+    graphs['G_weighted'] = construct_weighted_graph(graphs['simplicies_train'])
     # graphs['simplicies_test'] = read_simplicies(dataset_dir,  mode='test')
     # graphs['G_test'] = construct_graph(graphs['simplicies_test'])
     logger.info('Finish loading graphs.')
     logger.info(f'Nodes train: {graphs['G_train'].number_of_nodes()}')
-    logger.info(f'Simplicies train: {len(graphs['simplicies'])}')
+    logger.info(f'Simplicies train: {len(graphs['simplicies_train'])}')
     return graphs
 
 

@@ -127,12 +127,12 @@ class CliqueSampler:
         self.logger.info('Cache for rho not found. Computing rho ...')
         size2max_cliques_i = self.group_by_size(max_cliques)
         size2smaller_cliques_i = self.group_by_size(smaller_cliques)
+        
+        # to be optimized
         clique_distribution = {}
         for max_clique_size in sorted(size2max_cliques_i.keys()):
-
             max_clique_count = len(size2max_cliques_i[max_clique_size])
             smaller_cliques_sizes = [x for x in sorted(size2smaller_cliques_i.keys()) if x <= max_clique_size]
-
             if len(smaller_cliques_sizes) == 0:
                 continue
             clique_distribution[max_clique_size] = {}
@@ -145,6 +145,9 @@ class CliqueSampler:
                         if len(smaller_clique - max_clique) == 0:
                             clique_distribution[max_clique_size][smaller_clique_size][0] += 1
                             clique_distribution[max_clique_size][smaller_clique_size][3].append(smaller_clique_i)
+            
+        # optimize the three-fold for loop
+
         self.fill_in_efficiency(clique_distribution)
         rho = self.get_rho(clique_distribution)
 
