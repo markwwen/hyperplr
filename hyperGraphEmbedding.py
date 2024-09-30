@@ -25,8 +25,8 @@ class CBOW(torch.nn.Module):
         self.activation_function2 = nn.LogSoftmax(dim=-1)
 
     def forward(self, inputs):
-        # embeds = sum(self.embeddings(inputs)).view(1, -1)
-        embeds = self.embeddings(inputs).sum(dim=0).view(1, -1)
+        embeds = sum(self.embeddings(inputs)).view(1, -1)
+        # embeds = self.embeddings(inputs).sum(dim=0).view(1, -1)
         out = self.linear1(embeds)
         out = self.activation_function1(out)
         out = self.linear2(out)
@@ -54,16 +54,17 @@ def getEmbedding(simplicies, name):
         simplex_len = len(simplex)
         if vocab_size < max(simplex):
             vocab_size = max(simplex)
-        for i in range(simplex_len):
-            context = [simplex[x] for x in range(simplex_len) if x != i]
-            target = simplex[i]
-            data.append((context, target))
+        if simplex_len > 1:
+            for i in range(simplex_len):
+                context = [simplex[x] for x in range(simplex_len) if x != i]
+                target = simplex[i]
+                data.append((context, target))
 
     vocab_size += 1
     print(f"data size: {len(data)}")
 
     # model setting
-    EMDEDDING_DIM = 50
+    EMDEDDING_DIM = 30
 
     # literal_to_ix = {}
     # for i in range(1, num_vars + 1):
@@ -74,22 +75,22 @@ def getEmbedding(simplicies, name):
     loss_function = nn.NLLLoss()
     optimizer = torch.optim.SGD(model.parameters(), lr=0.001)
 
-    # training
-    for epoch in range(50):
-        total_loss = 0
-        for context, target in data:
-            context_vector = make_context_vector(context)
-            log_probs = model(context_vector)
-            total_loss += loss_function(
-                log_probs, torch.tensor([target])
-            )
+    # # training
+    # for epoch in range(50):
+    #     total_loss = 0
+    #     for context, target in data:
+    #         context_vector = make_context_vector(context)
+    #         log_probs = model(context_vector)
+    #         total_loss += loss_function(
+    #             log_probs, torch.tensor([target])
+    #         )
 
-        optimizer.zero_grad()
-        total_loss.backward()
-        optimizer.step()
+    #     optimizer.zero_grad()
+    #     total_loss.backward()
+    #     optimizer.step()
 
-        if epoch % 10 == 0:
-            print(epoch, total_loss.item())
+    #     if epoch % 1 == 0:
+    #         print(epoch, total_loss.item())
 
     # test the embedding
     embeddings = model.get_embeddings()

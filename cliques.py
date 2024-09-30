@@ -62,6 +62,7 @@ def detect_max_cliques(graph, mode, config, logger):
         with open(cache, 'wb') as c:
             pickle.dump(cliques, c)
     logger.info('Number of maximum cliques:{}'.format(len(cliques)))
+    print('Number of maximum cliques:', len(cliques))
     return cliques
 
 
