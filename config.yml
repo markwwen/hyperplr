@@ -1,4 +1,4 @@
 data_dir: 'data'
 dataset_dir: 'dataset'
-dataset: 'email-Enron'
+dataset: 'email-Eu'
 beta: 80000
